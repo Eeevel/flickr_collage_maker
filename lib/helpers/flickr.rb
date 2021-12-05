@@ -1,12 +1,14 @@
 require 'flickraw'
+require 'logger'
 
 class Flickr
-  attr_reader :flickr
+  attr_reader :flickr, :logger
 
   def initialize
     FlickRaw.api_key = ENV['FLICKR_API_KEY']
     FlickRaw.shared_secret = ENV['FLICKR_SHARED_SECRET']
     @flickr = FlickRaw::Flickr.new
+    @logger = Logger.new(STDOUT)
   end
 
   def urls(search_text, quanity)
@@ -23,6 +25,7 @@ class Flickr
     quanity.times do
       photos << list[rand(list.size)]
     end
+    logger.info('Photos was found')
     photos
   end
 end

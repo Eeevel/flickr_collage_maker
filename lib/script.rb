@@ -18,7 +18,7 @@ photos = ImageHandler.download(urls, options[:quanity])
 image_list = CollageMaker.image_list(photos)
 
 # make collage
-collage = CollageMaker.collage(image_list)
+collage = CollageMaker.collage(image_list, options[:size])
 
 # collage save
 ImageHandler.save(collage)

@@ -21,9 +21,10 @@ image_list = CollageMaker.image_list(photos)
 collage = CollageMaker.collage(image_list, options[:size])
 
 # collage save
-ImageHandler.save(collage)
+ImageHandler.save(collage, options[:file_name])
 
 # delete temp images
 ImageHandler.clean(photos)
 
 puts 'Collage was made'
+puts "You can find you collage at the path ./out/#{options[:file_name]}"

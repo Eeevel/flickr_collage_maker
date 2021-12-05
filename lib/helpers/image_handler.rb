@@ -18,7 +18,7 @@ class ImageHandler
     end
   end
 
-  def self.save(collage)
-    collage.write('./out/output.jpg')
+  def self.save(collage, file_name)
+    collage.write("./out/#{file_name}")
   end
 end

@@ -1,7 +1,32 @@
 require 'rmagick'
 
 class CollageMaker
-  def self.image_list(images)
+  SIZES = {
+    thumbnail: 100,
+    small: 250,
+    medium: 500,
+    large: 1000
+  }.freeze
+
+  def initialize(images, size_name)
+    @images = images
+    @size_name = size_name
+  end
+
+  def collage
+    montage = image_list.montage do |image|
+      image.background_color = '#ffffff'
+      image.geometry = "#{size}x#{size}+5+5"
+      image.shadow = true
+    end
+    montage.flatten_images
+  end
+
+  private
+
+  attr_reader :images, :size_name
+
+  def image_list
     image_list = Magick::ImageList.new
     images.each do |image|
       image_list << Magick::Image.read(image).first
@@ -9,22 +34,7 @@ class CollageMaker
     image_list
   end
 
-  def self.collage(image_list, size_name)
-    montage = image_list.montage do |image|
-      image.background_color = '#ffffff'
-      image.geometry = "#{size(size_name)}x#{size(size_name)}+5+5"
-      image.shadow = true
-    end
-    montage.flatten_images
-  end
-
-  private_class_method def self.size(size_name)
-    sizes = {
-      thumbnail: 100,
-      small: 250,
-      medium: 500,
-      large: 1000
-    }
-    sizes[size_name]
+  def size
+    @size ||= SIZES[size_name]
   end
 end
